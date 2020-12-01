@@ -3,7 +3,9 @@ package jr.alcemir.personAPI.controller;
 import jr.alcemir.personAPI.dto.MessageResponseDTO;
 import jr.alcemir.personAPI.entity.Person;
 import jr.alcemir.personAPI.repository.PersonRepository;
+import jr.alcemir.personAPI.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -11,20 +13,16 @@ import org.springframework.web.bind.annotation.*;
 
 public class PersonController {
 
-    private PersonRepository personRepository;
-    //aqui entra a tal da injeção de dependência!!!
+    private PersonService personService;
 
     @Autowired
-    public PersonController(PersonRepository personRepository) {
-        this.personRepository = personRepository;
+    public PersonController(PersonService personService) {
+        this.personService = personService;
     }
 
-    @PostMapping //e não GetMapping pois agora queremos criar um livro
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public MessageResponseDTO createPerson(@RequestBody Person person){
-        Person savedPerson = personRepository.save(person);
-        return MessageResponseDTO
-                .builder()
-                .message("Created person with ID " + savedPerson.getId())
-                .build();
+        return personService.createPerson(person);
     }
 }
