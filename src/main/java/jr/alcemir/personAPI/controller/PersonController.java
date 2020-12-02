@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/people")
-
+//@AllArgsConstructor(onConstructor = @__(@Autowired)) isso aqui tira os @autowired
 public class PersonController {
 
     private PersonService personService;
