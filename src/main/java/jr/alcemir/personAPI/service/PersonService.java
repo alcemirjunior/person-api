@@ -5,6 +5,7 @@ import jr.alcemir.personAPI.dto.request.PersonDTO;
 import jr.alcemir.personAPI.entity.Person;
 import jr.alcemir.personAPI.mapper.PersonMapper;
 import jr.alcemir.personAPI.repository.PersonRepository;
+import jr.alcemir.personAPI.service.exception.PersonNotFoungException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,5 +39,12 @@ public class PersonService {
         return allPeople.stream()
                 .map(personMapper::toDTO)
                 .collect(Collectors.toList());
+    }
+
+    public PersonDTO findById(Long id) throws PersonNotFoungException {
+        Person person = personRepository.findById(id)
+                .orElseThrow(()->new PersonNotFoungException(id));
+
+        return personMapper.toDTO(person);
     }
 }

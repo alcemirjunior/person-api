@@ -3,6 +3,7 @@ package jr.alcemir.personAPI.controller;
 import jr.alcemir.personAPI.dto.MessageResponseDTO;
 import jr.alcemir.personAPI.dto.request.PersonDTO;
 import jr.alcemir.personAPI.service.PersonService;
+import jr.alcemir.personAPI.service.exception.PersonNotFoungException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -31,5 +32,10 @@ public class PersonController {
     @GetMapping
     public List<PersonDTO> listAll(){
        return personService.ListAll();
+    }
+
+    @GetMapping("/{id}")
+    public PersonDTO findById(@PathVariable Long id) throws PersonNotFoungException {
+        return personService.findById(id);
     }
 }
